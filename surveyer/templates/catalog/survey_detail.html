@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ survey.name }}</h1>
+  <form>
+    <ol>
+    {% for ques in survey.question_set.all %}
+      <li>{{ ques.query }}
+      <ol type='a'>
+      {% for ans in ques.answer_set.all %}
+        <li><input type='radio' name='ans{{ ques.query }}' id='ans{{ forloop.counter }}' value='{{ ques.ans.selection }}'>
+        <label for ='ans{{ forloop.counter }}'>{{ ans.selection }}</label></li>
+      {% endfor %}
+      </li>
+      </ol><br>
+    {% endfor %}
+    </ol>
+    <input type='submit' value='Submit'>
+  </form>
+{% endblock %}

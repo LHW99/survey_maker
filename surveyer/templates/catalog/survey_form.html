@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Create Survey</h1>
+  <form action="" method="POST">
+    {% csrf_token %}
+    <table>
+      <tr>
+        <td>{{ form.title }}</td>
+      </tr>
+    </table>
+    <input type="submit" value="Next">
+  </form>
+{% endblock %}  

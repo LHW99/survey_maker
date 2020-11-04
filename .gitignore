@@ -1,0 +1,7 @@
+# text backup files
+*.bak
+
+#Database
+*.sqlite3
+
+/survey2

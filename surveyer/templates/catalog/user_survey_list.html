@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Your Surveys</h1>
+
+  {% if survey_list %}
+  <ol>
+    {% for surv in survey_list %}
+    <li>
+      <a href='{% url 'survey-detail' surv.pk %}'>{{surv.title}}</a>
+      {% if surv.surveyer == request.user %}
+        <p><a href='{% url 'survey-update' surv.pk %}'>Update</a> | <a href='{% url 'survey-delete' surv.pk %}'>Delete</a></p>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+
+  {% else %}
+    <p>You have no surveys.</p>
+  {% endif %}
+{% endblock %}

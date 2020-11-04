@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang = 'en'>
+<head>
+  {% block title %}<title>Online Surveys</title>{% endblock %} 
+  <meta charset="utf-8">
+  <!-- easy viewport optimization -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- bootstrap css -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <!-- loading custom css file -->
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-2">
+      {% block sidebar %}
+        <ul class="sidebar-nav">
+          <li><a href='{% url 'index' %}'>Home</a>
+          {% if user.is_authenticated %}
+          <li>User: {{ user.get_username }}</li><br>
+          <li><a href='{% url 'survey-create' %}'>Create New Survey</a></li>
+          <li><a href='{% url 'user-survey' %}'>Your Surveys</a></li>
+          <li><a href='{% url 'survey-list' %}'>All Surveys</a></li>
+          <li><a href='{% url 'logout' %}'>Logout</a></li>
+          {% else %}
+          <li><a href='{% url 'login' %}'>Login</a></li>
+          {% endif %}
+        </ul>
+      {% endblock %}
+      </div>
+      <div class='col-sm-10'>{% block content %}{% endblock %}</div>
+  </div>
+</body>
+</html>
