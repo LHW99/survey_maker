@@ -34,7 +34,7 @@ class UserSurvey(LoginRequiredMixin, generic.ListView):
 
 class SurveyCreate(LoginRequiredMixin, CreateView):
   model = Survey
-  fields = ['name',]
+  fields = ['title',]
   template_name = 'survey_form.html'
 
   def post(self, request):
