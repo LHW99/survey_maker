@@ -7,7 +7,7 @@ from surveyer.models import Answer, Question, Survey
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
-#from .forms import QuestionFormset, AnswerFormset, SurveyForm, QuestionForm, AnswerForm
+from .forms import QuestionFormset, AnswerFormset, SurveyForm, QuestionForm, AnswerForm
 
 # Create your views here.
 

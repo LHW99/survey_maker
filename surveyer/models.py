@@ -10,7 +10,7 @@ class Answer(models.Model):
   query = models.ForeignKey('Question', on_delete=models.SET_NULL, null=True)
 
   def __str__(self):
-    return self.answer
+    return self.selection
 
 class Question(models.Model):
   query = models.CharField(max_length=300)
@@ -23,5 +23,8 @@ class Survey(models.Model):
   title = models.CharField(max_length=300, blank=False)
   surveyer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, unique=False)
 
+  def get_absolute_url(self):
+    return reverse("survey-detail", kwargs={"pk": self.pk})
+  
   def __str__(self):
     return self.title

@@ -8,7 +8,7 @@
   <li>
   <a href="{{ survey.get_absolute_url }}">{{ survey.title }}</a>
     {% if survey.surveyer == request.user %}
-       - <a href='{% url 'surveys-update' survey.pk %}'>Update</a> | <a href='{% url 'surveys-delete' survey.pk %}'>Delete</a>
+       - <a href='{% url 'survey-update' survey.pk %}'>Update</a> | <a href='{% url 'survey-delete' survey.pk %}'>Delete</a>
     {% endif %}
   </li><br>
   {% endfor %}
