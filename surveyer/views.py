@@ -38,10 +38,10 @@ class SurveyCreate(LoginRequiredMixin, CreateView):
   template_name = 'survey_form.html'
 
   def post(self, request):
-    form = SurveyForm(request.POST)
+    form = SurveyForm(request.POST, initial = {'surveyer': request.user})
     if form.is_valid():
       survey = form.save(commit=False)
-      survey.surveryer = self.request.user
+      survey.surveyer = self.request.user
       survey.save()
       return redirect('survey-create2', pk=survey.id)
     else:
@@ -52,12 +52,16 @@ class SurveyCreate2(LoginRequiredMixin, CreateView):
   model = Question
   fields = ['query',]
   template_name = 'survey_form2.html'
-  
+
   def post(self, request):
     form = QuestionForm(request.POST)
     if form.is_valid():
-      form.save()
-      return redirect('')
+      question = form.save(commit=False)
+      question.save()
+      return redirect('index')
+    else:
+      form = QuestionForm()
+    return render(request, 'survey_form2.html', {'form': form})
 
 
 class SurveyUpdate(LoginRequiredMixin, UpdateView):
