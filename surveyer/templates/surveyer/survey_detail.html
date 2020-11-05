@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>{{ survey.name }}</h1>
+  <h1>{{ survey.title }}</h1>
   <form>
     <ol>
     {% for ques in survey.question_set.all %}
