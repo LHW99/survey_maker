@@ -62,7 +62,7 @@ class SurveyCreate2(LoginRequiredMixin, CreateView):
 
 # try get_initial
   def get_initial(self):
-    surv = Survey.objects.get(pk=self.kwargs[this_object_id])
+    surv = Survey.objects.get(pk=self.kwargs['pk'])
     return {
       'survey': surv
     }
