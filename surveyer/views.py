@@ -55,12 +55,25 @@ class SurveyCreate2(LoginRequiredMixin, CreateView):
   template_name = 'survey_form2.html'
   success_url = 'survey-detail'
 
+# tried this
+#  def dispatch(self, request, * args, **kwargs):
+#      self.survey = get_object_or_404(Survey, pk=kwargs['pk'])
+#      return super().dispatch(request, *args, **kwargs)
+
+# try get_initial
+  def get_initial(self):
+    surv = Survey.objects.get(pk=self.kwargs[this_object_id])
+    return {
+      'survey': surv
+    }
+
   def post(self, request, pk):
     form = QuestionForm(request.POST)
     if form.is_valid():
       query = form.save(commit=False)
+      form.instance.survey = surv
       query.save()
-      return redirect('survey-detail', pk=pk)
+      return redirect('survey-detail', pk=surv)
     else:
       form = QuestionForm()
     return render(request, 'survey_form2.html', {'form': form})
