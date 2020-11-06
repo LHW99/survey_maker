@@ -1,7 +1,7 @@
 import datetime
 
-from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponseRedirect 
 from django.views import generic
 from surveyer.models import Answer, Question, Survey
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -55,20 +55,15 @@ class SurveyCreate2(LoginRequiredMixin, CreateView):
   template_name = 'survey_form2.html'
   success_url = 'survey-detail'
 
-  def form_valid(self, form):
-    query = form.save(commit=False)
-    query.survey = self.request.survey
-    return super(SurveyCreate2, self).form_valid(form)
-
   def post(self, request, pk):
     form = QuestionForm(request.POST)
     if form.is_valid():
-      question = form.save(commit=False)
-      question.save()
+      query = form.save(commit=False)
+      query.save()
       return redirect('survey-detail', pk=pk)
     else:
       form = QuestionForm()
-      return render(request, 'survey_form2.html', {'form': form})
+    return render(request, 'survey_form2.html', {'form': form})
 
 class SurveyUpdate(LoginRequiredMixin, UpdateView):
   model = Survey
