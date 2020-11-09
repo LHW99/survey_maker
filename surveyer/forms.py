@@ -15,7 +15,7 @@ class SurveyForm(ModelForm):
 class QuestionForm(ModelForm):
   class Meta: 
     model = Question
-    fields = '__all__'
+    fields = ['query',]
 
 class AnswerForm(ModelForm):
   class Meta:

@@ -62,22 +62,21 @@ class SurveyCreate2(LoginRequiredMixin, CreateView):
 
 # try get_initial
   def get_initial(self):
-    surv = Survey.objects.get(pk=self.kwargs['pk'])
+    survey = Question.objects.get(pk=self.kwargs['survey'])
     return {
-      'survey': surv
+      'survey': survey
     }
 
   def post(self, request, pk):
-    form = QuestionForm(request.POST)
+    form = QuestionFormset(request.POST)
     if form.is_valid():
       query = form.save(commit=False)
-      sur = instance.form.survey
-      instance.form.survey = request.session['survey']
+      form.instance.survey = request.session['survey']
       query.save()
-      return redirect('survey-detail', pk=sur)
+      return redirect('survey-detail', pk=survey)
     else:
       form = QuestionForm()
-    return render(request, 'survey_form2.html', {'form': form})
+    return render(request, 'survey_form2.html', {'survey': survey, 'question': question})
 
 class SurveyUpdate(LoginRequiredMixin, UpdateView):
   model = Survey
