@@ -71,9 +71,10 @@ class SurveyCreate2(LoginRequiredMixin, CreateView):
     form = QuestionForm(request.POST)
     if form.is_valid():
       query = form.save(commit=False)
-      form.instance.survey = surv
+      sur = instance.form.survey
+      instance.form.survey = request.session['survey']
       query.save()
-      return redirect('survey-detail', pk=surv)
+      return redirect('survey-detail', pk=sur)
     else:
       form = QuestionForm()
     return render(request, 'survey_form2.html', {'form': form})
