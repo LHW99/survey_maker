@@ -36,7 +36,7 @@ class SurveyCreate(LoginRequiredMixin, CreateView):
   model = Survey
   fields = ['title',]
   template_name = 'survey_form.html'
-  success_url = 'survey-create2'
+  success_url = 'survey-update'
 
   def post(self, request):
     form = SurveyForm(request.POST)
@@ -44,43 +44,14 @@ class SurveyCreate(LoginRequiredMixin, CreateView):
       survey = form.save(commit=False)
       survey.surveyer = self.request.user
       survey.save()
-      return redirect('survey-create2', pk=survey.id)
+      return redirect('survey-update', pk=survey.id)
     else:
       form = SurveyForm()
     return render(request, 'survey_form.html', {'form': form})
 
-class SurveyCreate2(LoginRequiredMixin, CreateView):
-  model = Question
-  fields = ['query',]
-  template_name = 'survey_form2.html'
-  success_url = 'survey-detail'
-
-# tried this
-#  def dispatch(self, request, * args, **kwargs):
-#      self.survey = get_object_or_404(Survey, pk=kwargs['pk'])
-#      return super().dispatch(request, *args, **kwargs)
-
-# try get_initial
-  def get_initial(self):
-    survey = Question.objects.get(pk=self.kwargs['survey'])
-    return {
-      'survey': survey
-    }
-
-  def post(self, request, pk):
-    form = QuestionFormset(request.POST)
-    if form.is_valid():
-      query = form.save(commit=False)
-      form.instance.survey = request.session['survey']
-      query.save()
-      return redirect('survey-detail', pk=survey)
-    else:
-      form = QuestionForm()
-    return render(request, 'survey_form2.html', {'survey': survey, 'question': question})
-
 class SurveyUpdate(LoginRequiredMixin, UpdateView):
   model = Survey
-  fields = ('name',)
+  fields = ['title',]
   template_name = 'survey_update.html'
 
 class SurveyDelete(LoginRequiredMixin, DeleteView):

@@ -32,5 +32,4 @@ urlpatterns += [
   path('survey/create', views.SurveyCreate.as_view(), name='survey-create'),
   path('survey/<int:pk>/update', views.SurveyUpdate.as_view(), name='survey-update'),
   path('survey/<int:pk>/delete', views.SurveyDelete.as_view(), name='survey-delete'),
-  path('survey/create/<int:pk>', views.SurveyCreate2.as_view(), name='survey-create2'),
 ]

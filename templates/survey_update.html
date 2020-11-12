@@ -1,12 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Update Survey</h1>
-  <form action="" method="POST">
-    {% csrf_token %}
-    <table>
-    {{ form.as_table }}
-    </table>
-    <input type="submit" value="Update">
-  </form>
+  <h1>{{ survey.title }}</h1>
+  <ol>
+  {% for query in survey.question_set.all %}
+    <li>{{ query }}
+    <ol type='a'>
+      {% for answer in query.answer_set.all %}
+        <li>{{ answer.selection }}</li>
+      {% endfor %}
+    </ol></br>
+    </li>
+  {% endfor %}
+  </ol>
+<input type='button' value='Add Question'>
 {% endblock %}  
