@@ -54,6 +54,21 @@ class SurveyUpdate(LoginRequiredMixin, UpdateView):
   fields = ['title',]
   template_name = 'survey_update.html'
 
+class QuestionCreate(LoginRequiredMixin, CreateView):
+  model = Question
+  fields = ['query',]
+  success_url = reverse_lazy('survey-update')
+
+  def post(self, request, pk):
+    form = QuestionForm(request.POST)
+    if form.is_valid():
+      question = form.save(commit=False)
+      question.query = form.cleaned_data['query']
+      question.save()
+    else:
+      form = QuestionForm()
+    return render(request, 'question_form.html', {'form': form})
+
 class SurveyDelete(LoginRequiredMixin, DeleteView):
   model = Survey
   success_url = reverse_lazy('user-survey')
