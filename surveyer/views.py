@@ -63,7 +63,7 @@ class QuestionCreate(LoginRequiredMixin, CreateView):
     form = QuestionForm(request.POST)
     if form.is_valid():
       question = form.save(commit=False)
-      question.query = form.cleaned_data['query']
+      form.instance.survey_id = self.kwargs.get('pk')
       question.save()
     else:
       form = QuestionForm()
