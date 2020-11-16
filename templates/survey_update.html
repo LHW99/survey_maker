@@ -4,7 +4,7 @@
   <h1>{{ survey.title }}</h1>
   <ol>
   {% for query in survey.question_set.all %}
-    <li>{{ query }}
+    <li>{{ query }} <a href='{% url 'answer-create' survey.pk query.pk %}'>Add answer</a>
     <ol type='a'>
       {% for answer in query.answer_set.all %}
         <li>{{ answer.selection }}</li>
@@ -13,5 +13,5 @@
     </li>
   {% endfor %}
   </ol>
-<a href='{% url 'question-create' survey.pk%}'>Add Question</a>
+<a href='{% url 'question-create' survey.pk %}'>Add Question</a>
 {% endblock %}  

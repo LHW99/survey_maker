@@ -65,9 +65,26 @@ class QuestionCreate(LoginRequiredMixin, CreateView):
       question = form.save(commit=False)
       form.instance.survey_id = self.kwargs.get('pk')
       question.save()
+      return redirect('survey-update', pk=pk)
     else:
       form = QuestionForm()
     return render(request, 'question_form.html', {'form': form})
+
+class AnswerCreate(LoginRequiredMixin, CreateView):
+  model = Answer
+  fields = ['selection',]
+  success_url = reverse_lazy('survey-update')
+
+  def post (self, request, pk):
+    form = AnswerForm(request.POST)
+    if form.is_valid():
+      answer = form.save(commit=False)
+      form.instance.question_id = self.kwargs.get('alt_pk')
+      answer.save()
+      return redirect('survey-update', pk=pk)
+    else:
+      form = AnswerForm()
+    return render(request, 'answer_form.html', {'form':form})
 
 class SurveyDelete(LoginRequiredMixin, DeleteView):
   model = Survey

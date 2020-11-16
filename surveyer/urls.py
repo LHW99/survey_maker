@@ -34,7 +34,12 @@ urlpatterns += [
   path('survey/<int:pk>/delete', views.SurveyDelete.as_view(), name='survey-delete'),
 ]
 
-# add questions
+# re questions
 urlpatterns += [
   path('survey/<int:pk>/update/question', views.QuestionCreate.as_view(), name='question-create'),
+]
+
+# re answers
+urlpatterns += [
+  path('survey/<int:pk>/update/<int:alt_pk>', views.AnswerCreate.as_view(), name='answer-create'),
 ]
