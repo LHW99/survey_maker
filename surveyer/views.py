@@ -75,11 +75,11 @@ class AnswerCreate(LoginRequiredMixin, CreateView):
   fields = ['selection',]
   success_url = reverse_lazy('survey-update')
 
-  def post (self, request, pk):
+  def post (self, request, pk, alt_pk):
     form = AnswerForm(request.POST)
     if form.is_valid():
       answer = form.save(commit=False)
-      form.instance.question_id = self.kwargs.get('alt_pk')
+      form.instance.query_id = self.kwargs.get('alt_pk')
       answer.save()
       return redirect('survey-update', pk=pk)
     else:
