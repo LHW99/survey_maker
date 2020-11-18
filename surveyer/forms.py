@@ -20,4 +20,4 @@ class QuestionForm(ModelForm):
 class AnswerForm(ModelForm):
   class Meta:
     model = Answer
-    fields = '__all__'
+    fields = ['selection',]

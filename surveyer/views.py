@@ -79,7 +79,7 @@ class AnswerCreate(LoginRequiredMixin, CreateView):
     form = AnswerForm(request.POST)
     if form.is_valid():
       answer = form.save(commit=False)
-      form.instance.query_id = self.kwargs.get('alt_pk')
+      form.instance.query_id = self.kwargs['alt_pk']
       answer.save()
       return redirect('survey-update', pk=pk)
     else:
