@@ -43,3 +43,8 @@ urlpatterns += [
 urlpatterns += [
   path('survey/<int:pk>/update/<int:alt_pk>', views.AnswerCreate.as_view(), name='answer-create'),
 ]
+
+# results
+urlpatterns += [
+  path('survey/<int:pk>/results', views.Results.as_view(), name='results'),
+]

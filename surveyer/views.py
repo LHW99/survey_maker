@@ -89,3 +89,7 @@ class AnswerCreate(LoginRequiredMixin, CreateView):
 class SurveyDelete(LoginRequiredMixin, DeleteView):
   model = Survey
   success_url = reverse_lazy('user-survey')
+
+class Results(LoginRequiredMixin, generic.DetailView):
+  model = Question
+  
