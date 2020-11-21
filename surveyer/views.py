@@ -20,6 +20,9 @@ class SurveyListView(generic.ListView):
 
 class SurveyDetailView(generic.DetailView):
   model = Survey
+  success_url = reverse_lazy('results')
+
+
 
 class QuestionView(generic.View):
   model = Question
