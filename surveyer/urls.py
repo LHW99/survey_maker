@@ -46,5 +46,5 @@ urlpatterns += [
 
 # results
 urlpatterns += [
-  path('survey/<int:pk>/results', views.Results.as_view(), name='results'),
+  path('survey/<int:pk>/results', views.SurveyResults.as_view(), name='results'),
 ]

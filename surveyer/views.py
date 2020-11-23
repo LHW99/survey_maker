@@ -1,7 +1,7 @@
 import datetime
 
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseRedirect 
+from django.http import HttpResponseRedirect, Http404
 from django.views import generic
 from surveyer.models import Answer, Question, Survey
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -20,9 +20,19 @@ class SurveyListView(generic.ListView):
 
 class SurveyDetailView(generic.DetailView):
   model = Survey
-  success_url = reverse_lazy('results')
+  success_url = 'results.html'
 
-
+  def vote(request, question_id):
+    survey = get_object_or_404(Survey, pk=survey_id)
+    try:
+      # request.POST lets you access submitted data by keyname
+      selected_choice = survey.question_set.answer_set.get(pk=request.POST['ans'])
+    except (KeyError, Answer.DoesNotExist):
+      return render(request, 'survey_detail.html', {'survey':survey, 'error_message': "You didn't select a choice."})
+    else: 
+      selected_choice.vote += 1
+      selected_choice.save()
+      return HttpResponseRedirect(reverse('results', args=(survey.id,)))
 
 class QuestionView(generic.View):
   model = Question
@@ -93,6 +103,7 @@ class SurveyDelete(LoginRequiredMixin, DeleteView):
   model = Survey
   success_url = reverse_lazy('user-survey')
 
-class Results(LoginRequiredMixin, generic.DetailView):
-  model = Question
+class SurveyResults(LoginRequiredMixin, generic.ListView):
+  model = Survey
+  template_name = 'results.html'
   

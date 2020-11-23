@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ survey.title }}testing</h1>
+  <ul>
+  {% for ques in survey.question_set.all %}
+    <li>{{ ques.query }}
+    <ol type='a'>
+    {% for ans in ques.answer_set.all %}
+      <li>{{ ans.selection_text }} -- {{ans.votes }} vote{{ ans.votes|pluralize }}</li>
+    {% endfor %}
+    </li>
+    </ol><br>
+  {% endfor %}
+  </ul>
+{% endblock %}

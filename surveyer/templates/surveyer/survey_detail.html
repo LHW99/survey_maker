@@ -2,13 +2,14 @@
 
 {% block content %}
   <h1>{{ survey.title }}</h1>
-  <form>
+  <form action='{% url 'results' survey.pk %}' method='POST'>
+  {% csrf_token %}
     <ol>
     {% for ques in survey.question_set.all %}
       <li>{{ ques.query }}
       <ol type='a'>
       {% for ans in ques.answer_set.all %}
-        <li><input type='radio' name='ans{{ ques.query }}' id='ans{{ forloop.counter }}' value='{{ ques.ans.selection }}'>
+        <li><input type='radio' name='ans' id='ans{{ forloop.counter }}' value='{{ ques.ans.selection }}'>
         <label for ='ans{{ forloop.counter }}'>{{ ans.selection }}</label></li>
       {% endfor %}
       </li>
@@ -17,4 +18,5 @@
     </ol>
     <input type='submit' value='Submit'>
   </form>
+  <a href='{% url 'results' survey.id%}'>test button</a>
 {% endblock %}
