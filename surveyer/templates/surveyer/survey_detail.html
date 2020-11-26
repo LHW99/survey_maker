@@ -2,7 +2,7 @@
 
 {% block content %}
   <h1>{{ survey.title }}</h1>
-  <form action='{% url 'results' survey.pk %}' method='POST'>
+  <form method='POST'>
   {% csrf_token %}
     <ol>
     {% for ques in survey.question_set.all %}
@@ -16,7 +16,7 @@
       </ol><br>
     {% endfor %}
     </ol>
-    <input type='submit' value='Submit'>
+    <button type='submit' value='{{ ans.selection }}'>Go</button>
   </form>
-  <a href='{% url 'results' survey.pk %}'>Results</a>
+  <br><a href='{% url 'results' survey.pk %}'>Results</a>
 {% endblock %}

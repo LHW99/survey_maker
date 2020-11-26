@@ -20,13 +20,17 @@ class SurveyListView(generic.ListView):
 
 class SurveyDetailView(generic.DetailView):
   model = Survey
+  #success_url = 'results'
+
+  def post(self, request, pk):
+    return HttpResponse('pp')
 
 class QuestionView(generic.View):
   model = Question
 
 class UserSurvey(LoginRequiredMixin, generic.ListView):
   model = Survey
-  template_name = 'catalog/user_survey_list.html'
+  template_name = 'surveyer/user_survey_list.html'
   paginate_by = 10
 
   def get_queryset(self):
