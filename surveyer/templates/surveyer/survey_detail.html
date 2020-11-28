@@ -7,16 +7,16 @@
     <ol>
     {% for ques in survey.question_set.all %}
       <li>{{ ques.query }}
-      <ol type='a'>
-      {% for ans in ques.answer_set.all %}
-        <li><input type='radio' name='ans' id='ans{{ forloop.counter }}' value='{{ ques.ans.selection }}'>
-        <label for ='ans{{ forloop.counter }}'>{{ ans.selection }}</label></li>
-      {% endfor %}
-      </li>
-      </ol><br>
+        <ol type='a'>
+        {% for ans in ques.answer_set.all %}
+          <li><label class='btn btn-secondary' for='ans{{ forloop.counter }}'>{{ ans }}</label>
+          <input type='radio' name='ans' id='ans{{ forloop.counter }}' value='{{ ans }}'></li>
+        {% endfor %}
+        </ol>
+      </li><br>
     {% endfor %}
     </ol>
-    <button type='submit' value='{{ ans.selection }}'>Go</button>
+    <input type='submit' value='Submit'>
   </form>
   <br><a href='{% url 'results' survey.pk %}'>Results</a>
 {% endblock %}

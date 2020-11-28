@@ -20,10 +20,10 @@ class SurveyListView(generic.ListView):
 
 class SurveyDetailView(generic.DetailView):
   model = Survey
-  #success_url = 'results'
 
   def post(self, request, pk):
-    return HttpResponse('pp')
+    var = request.POST.get('ans')
+    return HttpResponse(var)
 
 class QuestionView(generic.View):
   model = Question
