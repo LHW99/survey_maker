@@ -37,6 +37,7 @@ urlpatterns += [
 # re questions
 urlpatterns += [
   path('survey/<int:pk>/update/question', views.QuestionCreate.as_view(), name='question-create'),
+  path('survey/<int:pk>/answer/<int:alt_pk>', views.QuestionDetailView.as_view(), name='question-detail'),
 ]
 
 # re answers
