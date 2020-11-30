@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>{{ survey.title }}</h1>
+  <h1>{{ question.title }}</h1>
   <form method='POST'>
   {% csrf_token %}
     <ol>
@@ -9,13 +9,14 @@
       <li>{{ ques.query }}
         <ol type='a'>
         {% for ans in ques.answer_set.all %}
-          <li>{{ ans }}</li>
+          <li><label class='btn btn-secondary' for='ans{{ forloop.counter }}'>{{ ans }}</label>
+          <input type='radio' name='ans{{ ques }}' id='ans{{ forloop.counter }}' value='{{ ans }}'></li>
         {% endfor %}
         </ol>
       </li><br>
     {% endfor %}
     </ol>
+    <input type='submit' value='Submit'>
   </form>
-  <a href=''>Answer Survey</a><br>
   <br><a href='{% url 'results' survey.pk %}'>Results</a>
 {% endblock %}

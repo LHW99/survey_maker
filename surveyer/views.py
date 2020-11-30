@@ -1,4 +1,5 @@
 import datetime
+import re
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect, Http404, HttpResponse
@@ -21,11 +22,7 @@ class SurveyListView(generic.ListView):
 class SurveyDetailView(generic.DetailView):
   model = Survey
 
-  def post(self, request, pk):
-    var = request.POST.get('ans')
-    return HttpResponse(var)
-
-class QuestionView(generic.View):
+class QuestionDetailView(generic.DetailView):
   model = Question
 
 class UserSurvey(LoginRequiredMixin, generic.ListView):

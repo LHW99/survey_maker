@@ -21,3 +21,10 @@ class AnswerForm(ModelForm):
   class Meta:
     model = Answer
     fields = ['selection',]
+
+#class SubmitForm(forms.Form):
+#  submissionform = forms.ModelChoiceField(
+#    queryset =
+#    widget = forms.RadioSelect,
+#    empty_label = None,
+#  )
