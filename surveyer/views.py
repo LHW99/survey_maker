@@ -22,9 +22,6 @@ class SurveyListView(generic.ListView):
 class SurveyDetailView(generic.DetailView):
   model = Survey
 
-class QuestionDetailView(generic.DetailView):
-  model = Question
-
 class UserSurvey(LoginRequiredMixin, generic.ListView):
   model = Survey
   template_name = 'surveyer/user_survey_list.html'
@@ -95,4 +92,31 @@ class SurveyResults(LoginRequiredMixin, generic.DetailView):
   model = Survey
   template_name = 'results.html'
 
+def submit(request, survey_pk, sub_pk):
+  try:
+    survey = Survey.objects.prefetch_related('question_set__answer_set').get(
+      pk=survey_pk
+    )
+  except Survey.DoesNotExist:
+    raise Http404()
   
+  questions = survey.question_set.all()
+  answers = [q.answer_set.all() for q in questions]
+  form.kwargs = {'empty_premitted': False, 'answers': answers}
+  SubmitFormSet = formset_factory(SubmitForm, extra=len(questions), formset=BaseSubmitFormSet)
+  if request.method == 'POST':
+    formset = SubmitFormSet(request.POST, form_kwargs=form_kwargs)
+    if formset.is_valid():
+      with transaction.atomic():
+        for form in formset:
+          Answer.objects.create(
+            option_id=form.cleaned_data['answer'],
+          )
+        formset.save()
+      return redirect('results', pk=survey_pk)
+  
+  else:
+    formset = AnswerFormSet(form_kwargs=form_kwargs)
+  
+  question_forms = zip(questions,formset)
+  return render(request, 'submit.html', {'survey': survey, 'question_forms': question_forms, 'formset': formset,})
