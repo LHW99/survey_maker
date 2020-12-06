@@ -46,7 +46,7 @@ urlpatterns += [
 
 # submissions
 urlpatterns += [
-  path('survey/<int:pk>/submit/<int:alt_pk>', views.survey.submit, name='submit')
+  path('survey/<int:pk>/submit/', views.submit, name='submit')
 ]
 
 # results

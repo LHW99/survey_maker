@@ -92,10 +92,10 @@ class SurveyResults(LoginRequiredMixin, generic.DetailView):
   model = Survey
   template_name = 'results.html'
 
-def submit(request, survey_pk, sub_pk):
+def submit(request, pk):
   try:
     survey = Survey.objects.prefetch_related('question_set__answer_set').get(
-      pk=survey_pk
+      pk=Survey.pk
     )
   except Survey.DoesNotExist:
     raise Http404()
@@ -110,8 +110,9 @@ def submit(request, survey_pk, sub_pk):
       with transaction.atomic():
         for form in formset:
           Answer.objects.create(
-            option_id=form.cleaned_data['answer'],
+            option_pk=form.cleaned_data['answer'],
           )
+          option_pk.vote += 1
         formset.save()
       return redirect('results', pk=survey_pk)
   

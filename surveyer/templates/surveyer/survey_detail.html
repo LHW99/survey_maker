@@ -16,6 +16,6 @@
     {% endfor %}
     </ol>
   </form>
-  <a href='{% url 'question-detail' survey.question.pk %}'>Answer Survey</a><br>
+  <a href='{% url 'submit' survey.pk %}'>Answer Survey</a><br>
   <br><a href='{% url 'results' survey.pk %}'>Results</a>
 {% endblock %}
