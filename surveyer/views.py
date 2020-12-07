@@ -8,7 +8,8 @@ from surveyer.models import Answer, Question, Survey
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
-from .forms import QuestionFormset, AnswerFormset, SurveyForm, QuestionForm, AnswerForm
+from .forms import QuestionFormset, AnswerFormset, SurveyForm, QuestionForm, AnswerForm, SubmitForm, BaseSubmitFormSet
+from django.forms.formsets import formset_factory
 
 # Create your views here.
 
@@ -95,15 +96,16 @@ class SurveyResults(LoginRequiredMixin, generic.DetailView):
 def submit(request, pk):
   try:
     survey = Survey.objects.prefetch_related('question_set__answer_set').get(
-      pk=Survey.pk
+      pk=pk
     )
   except Survey.DoesNotExist:
     raise Http404()
   
   questions = survey.question_set.all()
   answers = [q.answer_set.all() for q in questions]
-  form.kwargs = {'empty_premitted': False, 'answers': answers}
+  form_kwargs = {'empty_premitted': False, 'answers': answers}
   SubmitFormSet = formset_factory(SubmitForm, extra=len(questions), formset=BaseSubmitFormSet)
+  
   if request.method == 'POST':
     formset = SubmitFormSet(request.POST, form_kwargs=form_kwargs)
     if formset.is_valid():
@@ -117,7 +119,6 @@ def submit(request, pk):
       return redirect('results', pk=survey_pk)
   
   else:
-    formset = AnswerFormSet(form_kwargs=form_kwargs)
+    formset = SubmitFormSet(form_kwargs=form_kwargs)
   
-  question_forms = zip(questions,formset)
-  return render(request, 'submit.html', {'survey': survey, 'question_forms': question_forms, 'formset': formset,})
+  return render(request, 'surveyer/submit.html', {'survey': survey, 'formset': formset,})
