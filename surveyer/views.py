@@ -94,13 +94,7 @@ class SurveyResults(LoginRequiredMixin, generic.DetailView):
   template_name = 'results.html'
 
 def submit(request, pk):
-  try:
-    survey = Survey.objects.prefetch_related('question_set__answer_set').get(
-      pk=pk
-    )
-  except Survey.DoesNotExist:
-    raise Http404()
-  
+  survey = Survey.objects.prefetch_related('question_set__answer_set').get(pk=pk)
   questions = survey.question_set.all()
   answers = [q.answer_set.all() for q in questions]
   form_kwargs = {'empty_premitted': False, 'answers': answers}
