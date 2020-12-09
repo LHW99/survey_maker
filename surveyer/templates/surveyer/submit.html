@@ -5,9 +5,17 @@
   <form method='post'>
     {% csrf_token %}
     {{ formset.management_form }}
-    {% for question in survey.question_set.all %}
+
+    <table>
+      {% for form in formset %}
+        {{form}}
+      {% endfor %}
+    </table>
+
+    <!--{% for question in survey.question_set.all %}
     <h4>Question {{ forloop.counter }}: {{question.query}}</h4>
-    {% endfor %}
+    {% endfor %}-->
+
     <!-- {{ formset.management_form }}
     {% for question, form in question_forms %}
     <div class='ui form {% if form.errors %}error{% endif %}'>

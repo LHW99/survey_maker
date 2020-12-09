@@ -97,18 +97,15 @@ def submit(request, pk):
   survey = Survey.objects.prefetch_related('question_set__answer_set').get(pk=pk)
   questions = survey.question_set.all()
   answers = [q.answer_set.all() for q in questions]
-  form_kwargs = {'empty_premitted': False, 'answers': answers}
+  form_kwargs = {'empty_permitted': False, 'answers': answers}
   SubmitFormSet = formset_factory(SubmitForm, extra=len(questions), formset=BaseSubmitFormSet)
   
   if request.method == 'POST':
     formset = SubmitFormSet(request.POST, form_kwargs=form_kwargs)
     if formset.is_valid():
-      with transaction.atomic():
-        for form in formset:
-          Answer.objects.create(
-            option_pk=form.cleaned_data['answer'],
-          )
-          option_pk.vote += 1
+      for form in formset:
+        option=form.cleaned_data['answer'],
+        option.vote += 1
         formset.save()
       return redirect('results', pk=survey_pk)
   
