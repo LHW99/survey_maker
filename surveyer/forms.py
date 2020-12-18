@@ -26,9 +26,11 @@ class SubmitForm(forms.Form):
   def __init__(self, *args, **kwargs):
     answers = kwargs.pop('answers')
     choices = {(a.pk, a.selection) for a in answers}
+    labels = {a.query for a in answers}
     super().__init__(*args, **kwargs)
     answer_field = forms.ChoiceField(choices=choices, widget=forms.RadioSelect, required=True)
     self.fields['answer'] = answer_field
+    self.fields['answer'].label = labels
 
 class BaseSubmitFormSet(forms.BaseFormSet):
   def get_form_kwargs(self, index):

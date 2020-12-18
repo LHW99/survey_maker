@@ -10,6 +10,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
 from .forms import QuestionFormset, AnswerFormset, SurveyForm, QuestionForm, AnswerForm, SubmitForm, BaseSubmitFormSet
 from django.forms.formsets import formset_factory
+from django.forms.models import inlineformset_factory
 
 # Create your views here.
 
@@ -98,15 +99,17 @@ def submit(request, pk):
   questions = survey.question_set.all()
   answers = [q.answer_set.all() for q in questions]
   form_kwargs = {'empty_permitted': False, 'answers': answers}
-  SubmitFormSet = formset_factory(SubmitForm, extra=len(questions), formset=BaseSubmitFormSet)
-  
+  #SubmitFormSet = formset_factory(SubmitForm, extra=len(questions), formset=BaseSubmitFormSet)
+  SubmitFormSet = inlineformset_factory(Question, Answer, extra=len(questions), exclude=['question',])
   if request.method == 'POST':
-    formset = SubmitFormSet(request.POST, form_kwargs=form_kwargs)
+    #formset = SubmitFormSet(request.POST, form_kwargs=form_kwargs)
+    formset = SubmitFormSet(request.POST, instance=question)
     if formset.is_valid():
-      for form in formset:
-        option=form.cleaned_data['answer'],
-        option.vote += 1
-        formset.save()
+      #for form in formset:
+      option = formset.get(pk=request.POST['answers'])
+      option.vote += 1
+      option.save()
+      #return HttpResponse(selection)
       return redirect('results', pk=survey_pk)
   
   else:
