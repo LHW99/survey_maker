@@ -99,18 +99,20 @@ def submit(request, pk):
   questions = survey.question_set.all()
   answers = [q.answer_set.all() for q in questions]
   form_kwargs = {'empty_permitted': False, 'answers': answers}
-  #SubmitFormSet = formset_factory(SubmitForm, extra=len(questions), formset=BaseSubmitFormSet)
-  SubmitFormSet = inlineformset_factory(Question, Answer, extra=len(questions), exclude=['question',])
+  SubmitFormSet = formset_factory(SubmitForm, extra=len(questions), formset=BaseSubmitFormSet)
+  #SubmitFormSet = inlineformset_factory(Question, Answer, extra=len(questions), exclude=['question',])
   if request.method == 'POST':
-    #formset = SubmitFormSet(request.POST, form_kwargs=form_kwargs)
-    formset = SubmitFormSet(request.POST, instance=question)
+    formset = SubmitFormSet(request.POST, form_kwargs=form_kwargs)
+    #formset = SubmitFormSet(request.POST, instance=question)
     if formset.is_valid():
       #for form in formset:
-      option = formset.get(pk=request.POST['answers'])
-      option.vote += 1
-      option.save()
-      #return HttpResponse(selection)
-      return redirect('results', pk=survey_pk)
+        #option = form.get(pk=request.POST['answers'])
+      option = formset.cleaned_data
+        #option = form.data.get('answers')
+        #option.vote += 1
+        #option.save()
+      return HttpResponse(option)
+      #return redirect('results', pk=survey_pk)
   
   else:
     formset = SubmitFormSet(form_kwargs=form_kwargs)
