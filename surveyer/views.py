@@ -108,11 +108,16 @@ def submit(request, pk):
       #for form in formset:
         #option = form.get(pk=request.POST['answers'])
       option = formset.cleaned_data
+      for o in option:
+        sel = o.get('answer')
+        select = Answer.objects.get(id=sel)
+        #select.vote += 1
+        print (select)
         #option = form.data.get('answers')
         #option.vote += 1
         #option.save()
-      return HttpResponse(option)
-      #return redirect('results', pk=survey_pk)
+      #return HttpResponse(option)
+      return redirect('results', pk=pk)
   
   else:
     formset = SubmitFormSet(form_kwargs=form_kwargs)
