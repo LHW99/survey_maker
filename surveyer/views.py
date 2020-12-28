@@ -100,23 +100,15 @@ def submit(request, pk):
   answers = [q.answer_set.all() for q in questions]
   form_kwargs = {'empty_permitted': False, 'answers': answers}
   SubmitFormSet = formset_factory(SubmitForm, extra=len(questions), formset=BaseSubmitFormSet)
-  #SubmitFormSet = inlineformset_factory(Question, Answer, extra=len(questions), exclude=['question',])
   if request.method == 'POST':
     formset = SubmitFormSet(request.POST, form_kwargs=form_kwargs)
-    #formset = SubmitFormSet(request.POST, instance=question)
     if formset.is_valid():
-      #for form in formset:
-        #option = form.get(pk=request.POST['answers'])
       option = formset.cleaned_data
       for o in option:
         sel = o.get('answer')
         select = Answer.objects.get(id=sel)
-        #select.vote += 1
-        print (select)
-        #option = form.data.get('answers')
-        #option.vote += 1
-        #option.save()
-      #return HttpResponse(option)
+        select.vote += 1
+        select.save()
       return redirect('results', pk=pk)
   
   else:
