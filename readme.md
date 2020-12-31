@@ -6,4 +6,8 @@ This is a Django app that makes surveys. With it, users can create their own sur
 
 This app was written with Django 3.1.2. It's recommended to use python's **virtualenv** tool if building locally:
 
-> 
+> $ mkvirtualenv *django_env*
+> $ python manage.py runserver
+
+Then visit http://localhost:8000 in your web browser to view the app. 
+
