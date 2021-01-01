@@ -4,4 +4,4 @@
 #Database
 *.sqlite3
 
-/survey2
+/survey2/private_settings.py

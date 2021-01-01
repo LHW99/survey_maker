@@ -4,14 +4,18 @@ This is a Django app that makes surveys. With it, users can create their own sur
 
 ## Getting Started
 
-This app was written with Django 3.1.2. It's recommended to use python's **virtualenv** tool if building locally:
+This app was written with Django 3.1.2. 
+
+First, you will need to create a **private_settings.py** file in the survey2 directory. In it, you will need to store private settings (ie. SECRET_KEY). 
+
+Second, it's recommended to use python's **virtualenv** tool if building locally:
 
 > $ mkvirtualenv *django_env*
 > $ python manage.py runserver
 
 Then visit http://localhost:8000 in your web browser to view the app. 
 
-To access the survey functions of the site, a login is required. You can create a superuser from the terminal to explore the site.
+Third, to access the survey functions of the site, a login is required. You can create a superuser from the terminal to explore the site.
 
 > python manage.py createsuperuser
 
