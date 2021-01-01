@@ -17,3 +17,9 @@ To access the survey functions of the site, a login is required. You can create 
 
 Follow the prompts to create your username, email, and password to login to the site.
 
+## Screenshots
+
+![ss1](/screenshots/1.png?raw=true)
+![ss3](/screenshots/3.png?raw=true)
+![ss4](/screenshots/4.png?raw=true)
+![ss5](/screenshots/5.png?raw=true)
